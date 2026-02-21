@@ -1,0 +1,12 @@
+@use '../styles/variables.scss' as vars;
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  main {
+    flex: 1;
+    background-color: vars.$color-main-bg;
+  }
+}
