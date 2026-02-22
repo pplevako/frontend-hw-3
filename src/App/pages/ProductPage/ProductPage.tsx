@@ -1,10 +1,9 @@
+import Button from '@components/Button';
+import Text from '@components/Text/Text';
+import ArrowLeftIcon from '@components/icons/ArrowLeftIcon';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-
-import Button from '../../components/Button';
-import Text from '../../components/Text/Text';
-import ArrowLeftIcon from '../../components/icons/ArrowLeftIcon';
 
 import styles from './ProductPage.module.scss';
 

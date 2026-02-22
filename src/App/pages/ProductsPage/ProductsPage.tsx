@@ -1,10 +1,9 @@
+import Button from '@components/Button';
+import Card from '@components/Card';
+import Text from '@components/Text';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Text from '../../components/Text';
 
 import styles from './ProductsPage.module.scss';
 

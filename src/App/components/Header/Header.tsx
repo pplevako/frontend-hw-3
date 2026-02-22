@@ -1,12 +1,11 @@
+import Text from '@components/Text';
+import CartIcon from '@components/icons/CartIcon';
+import UserIcon from '@components/icons/UserIcon';
 import cx from 'clsx';
 import React from 'react';
 import { NavLink } from 'react-router';
 
-import Text from '../Text';
-import CartIcon from '../icons/CartIcon';
-import UserIcon from '../icons/UserIcon';
-
-import styles from './Navbar.module.scss';
+import styles from './Header.module.scss';
 
 const navItems = [
   { to: '/products', label: 'Products' },
