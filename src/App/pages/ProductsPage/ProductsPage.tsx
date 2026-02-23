@@ -80,6 +80,7 @@ const ProductsPage: React.FC = () => {
       <div className={styles.grid}>
         {products.map((product) => (
           <Card
+            className={styles.productItem}
             key={product.id}
             image={product.imageUrl}
             title={product.title}

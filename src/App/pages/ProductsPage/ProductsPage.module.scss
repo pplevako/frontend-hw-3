@@ -45,3 +45,7 @@ $card-space: vars.$space-xl;
     grid-template-columns: repeat(1, vars.$size-product-card-w);
   }
 }
+
+.productItem {
+  cursor: pointer;
+}
