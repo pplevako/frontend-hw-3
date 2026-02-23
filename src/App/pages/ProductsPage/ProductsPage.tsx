@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 import Card from '@components/Card';
 import Text from '@components/Text';
+import { routes } from '@config/routes';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -48,7 +49,7 @@ const ProductsPage: React.FC = () => {
   }, []);
 
   const handleCardClick = (id: string) => {
-    navigate(`/products/${id}`);
+    navigate(routes.product.create(id));
   };
 
   const handleAddToCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {

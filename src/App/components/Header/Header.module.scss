@@ -1,14 +1,19 @@
 @use 'styles/variables' as vars;
+@use 'styles/mixins' as *;
 
 .header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
   height: 90px;
   background-color: vars.$bg-color;
   border-bottom: 2px solid #F3F3F3;
-  padding-left: 100px; //TODO: move to mixin or variable
-  padding-right: 100px; // TODO: move to mixin or variable
   box-sizing: content-box;
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    height: 100%;
+
+    @include responsive-container;
+  }
 }
 
 .nav {
@@ -16,6 +21,14 @@
   display: flex;
   justify-content: center;
   gap: vars.$space-xl;
+
+  @include respond(md) {
+    gap: vars.$space-m;
+  }
+
+  @include respond(sm) {
+    gap: vars.$space-xxs;
+  }
 
   a {
     display: flex;
@@ -35,6 +48,12 @@
   display: flex;
   align-items: center;
   gap: vars.$space-xs;
+
+  .logoBrand {
+    @include respond(md) {
+      display: none;
+    }
+  }
 }
 
 .userActions {
@@ -42,4 +61,12 @@
   display: flex;
   align-items: center;
   gap: 24px;
+
+  @include respond(md) {
+    gap: vars.$space-xs;
+  }
+
+  @include respond(sm) {
+    gap: vars.$space-xxs;
+  }
 }

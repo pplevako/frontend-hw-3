@@ -1,9 +1,13 @@
 @use 'styles/variables' as vars;
+@use 'styles/mixins' as *;
+
+$card-space: vars.$space-xl;
 
 .productsPage {
-  padding: 100px 0;
-  max-width: vars.$size-content-max-w;
-  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  @include responsive-container;
 }
 
 .desc {
@@ -30,5 +34,14 @@
   display: grid;
   grid-template-columns: repeat(3, vars.$size-product-card-w);
   justify-content: space-between;
-  gap: vars.$space-xl;
+  gap: $card-space;
+
+  @media (max-width: (vars.$size-product-card-w*3 + $card-space*4)) {
+    grid-template-columns: repeat(2, vars.$size-product-card-w);
+    justify-content: center;
+  }
+
+  @media (max-width: (vars.$size-product-card-w*2 + $card-space*3)) {
+    grid-template-columns: repeat(1, vars.$size-product-card-w);
+  }
 }

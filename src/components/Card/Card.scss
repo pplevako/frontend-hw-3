@@ -1,6 +1,8 @@
 @use 'styles/variables' as vars;
 
 .card {
+  display: flex;
+  flex-direction: column;
   width: vars.$size-product-card-w;
   background-color: vars.$card-bg-color;
 }
@@ -19,6 +21,7 @@
 }
 
 .card-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -26,6 +29,7 @@
 }
 
 .card-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: vars.$space-xxs;

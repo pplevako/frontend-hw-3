@@ -1,25 +1,40 @@
 import { Navigate, type RouteObject } from 'react-router';
 
 import App from '../App';
-import Product from '../App/pages/ProductPage';
+import ProductPage from '../App/pages/ProductPage';
 import ProductsPage from '../App/pages/ProductsPage';
+
+export const routes = {
+  main: {
+    mask: '/',
+    create: () => '/',
+  },
+  products: {
+    mask: '/products',
+    create: () => '/products',
+  },
+  product: {
+    mask: '/products/:id',
+    create: (id: string) => `/products/${id}`,
+  },
+};
 
 export const routesConfig: RouteObject[] = [
   {
-    path: '/',
+    path: routes.main.mask,
     element: <App />,
     children: [
       {
-        path: '/products',
+        path: routes.products.mask,
         element: <ProductsPage />,
       },
       {
-        path: '/products/:id',
-        element: <Product />,
+        path: routes.product.mask,
+        element: <ProductPage />,
       },
       {
         path: '*',
-        element: <Navigate to="/products" replace />,
+        element: <Navigate to={routes.products.create()} replace />,
       },
     ],
   },
