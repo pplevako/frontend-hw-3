@@ -1,0 +1,28 @@
+@use 'styles/variables' as vars;
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: vars.$space-xxs;
+  padding: vars.$space-s vars.$space-l;
+  min-height: 52px;
+  background-color: vars.$button-primary-bg-color;
+  color: vars.$button-primary-text;
+  border: none;
+}
+
+.btn:hover {
+  background-color: vars.$button-primary-bg-hover-color;
+}
+
+.btn.btn-disabled {
+  background-color: vars.$button-primary-bg-disabled-color;
+}
+
+.btn.btn-loading {
+  pointer-events: none;
+}
+
+.btn .loader {
+  color: vars.$button-primary-text;
+}

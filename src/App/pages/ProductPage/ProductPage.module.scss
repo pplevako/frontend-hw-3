@@ -1,0 +1,75 @@
+@use 'styles/variables' as vars;
+@use 'styles/mixins' as *;
+
+.productPage {
+  padding-top: 60px;
+  padding-bottom: 100px;
+
+  @include responsive-container;
+}
+
+.nav {
+  margin-bottom: vars.$space-l;
+
+  .backButton {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$space-m;
+    height: 48px;
+    background: none;
+    border: none;
+    color: vars.$text-primary-color;
+    cursor: pointer;
+  }
+}
+
+.productContent {
+  display: flex;
+  gap: vars.$space-xl;
+
+  @include respond(lg) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .productImage {
+    flex-shrink: 0;
+    max-width: 600px;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .productDetail {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$space-xl;
+
+    .productTitle {
+      margin-bottom: vars.$space-m;
+    }
+    .productFooter {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$space-xl;
+      padding-top: vars.$space-l;
+
+      .productActions {
+        display: flex;
+        gap: vars.$space-xl;
+
+        .btnAddToCard {
+          color: vars.$text-primary-color;
+          background-color: vars.$bg-color;
+          border: 1px solid vars.$text-secondary-color;
+
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}
