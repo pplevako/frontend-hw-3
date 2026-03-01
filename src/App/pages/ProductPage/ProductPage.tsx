@@ -2,7 +2,7 @@ import Button from '@components/Button';
 import Text from '@components/Text/Text';
 import ArrowLeftIcon from '@components/icons/ArrowLeftIcon';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 
 import styles from './ProductPage.module.scss';
@@ -16,18 +16,18 @@ type Product = {
 };
 
 const ProductPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { documentId } = useParams<{ documentId: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+    if (!documentId) return;
     const fetchProduct = async () => {
       try {
         const result = await axios({
           method: 'get',
-          url: `https://front-school-strapi.ktsdev.ru/api/products/${id}?populate[0]=images`,
+          url: `https://front-school-strapi.ktsdev.ru/api/products/${documentId}?populate[0]=images`,
         });
         const raw = result.data.data;
         setProduct({
@@ -45,11 +45,11 @@ const ProductPage: React.FC = () => {
       }
     };
     fetchProduct();
-  }, [id]);
+  }, [documentId]);
 
-  const handleGoBack = () => {
+  const handleGoBack = useCallback(() => {
     navigate(-1);
-  };
+  }, [navigate]);
 
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;

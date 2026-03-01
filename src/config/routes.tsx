@@ -1,8 +1,8 @@
 import { Navigate, type RouteObject } from 'react-router';
 
 import App from '../App';
+import ProductListPage from '../App/pages/ProductListPage';
 import ProductPage from '../App/pages/ProductPage';
-import ProductsPage from '../App/pages/ProductsPage';
 
 export const routes = {
   main: {
@@ -14,8 +14,8 @@ export const routes = {
     create: () => '/products',
   },
   product: {
-    mask: '/products/:id',
-    create: (id: string) => `/products/${id}`,
+    mask: '/products/:documentId',
+    create: (documentId: string) => `/products/${documentId}`,
   },
 };
 
@@ -25,8 +25,12 @@ export const routesConfig: RouteObject[] = [
     element: <App />,
     children: [
       {
+        index: true,
+        element: <Navigate to={routes.products.create()} replace />,
+      },
+      {
         path: routes.products.mask,
-        element: <ProductsPage />,
+        element: <ProductListPage />,
       },
       {
         path: routes.product.mask,
@@ -34,7 +38,7 @@ export const routesConfig: RouteObject[] = [
       },
       {
         path: '*',
-        element: <Navigate to={routes.products.create()} replace />,
+        element: <Navigate to="/" replace />,
       },
     ],
   },

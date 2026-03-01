@@ -3,7 +3,7 @@
 
 $card-space: vars.$space-xl;
 
-.productsPage {
+.productListPage {
   padding-top: 100px;
   padding-bottom: 100px;
 
@@ -46,6 +46,8 @@ $card-space: vars.$space-xl;
   }
 }
 
-.productItem {
-  cursor: pointer;
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: vars.$space-xl;
 }
