@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 class ProductFiltersStore {
   private _searchTitle = '';
-  private _selectedCategories: number[] = [];
+  private _selectedCategories = new Set<number>();
 
   constructor() {
     makeAutoObservable(this);
@@ -17,16 +17,18 @@ class ProductFiltersStore {
   }
 
   get selectedCategories(): readonly number[] {
-    return this._selectedCategories;
+    return Array.from(this._selectedCategories);
   }
 
-  setSelectedCategories(keys: number[]) {
-    this._selectedCategories = keys;
+  setSelectedCategories(ids: (string | number)[]) {
+    const newSet = new Set<number>();
+    ids.forEach((id) => newSet.add(typeof id === 'string' ? parseInt(id, 10) : id));
+    this._selectedCategories = newSet;
   }
 
   reset() {
     this._searchTitle = '';
-    this._selectedCategories = [];
+    this._selectedCategories = new Set<number>();
   }
 
   get queryParams() {

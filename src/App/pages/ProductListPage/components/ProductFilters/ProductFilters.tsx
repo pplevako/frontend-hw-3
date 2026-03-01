@@ -4,6 +4,7 @@ import type { Option } from '@components/MultiDropdown';
 import { useStore } from '@stores/context';
 import cx from 'clsx';
 import { debounce } from 'lodash';
+import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
@@ -28,6 +29,16 @@ const ProductFilters: React.FC<React.HTMLAttributes<HTMLDivElement>> = observer(
       };
     }, [debouncedSearch]);
 
+    useEffect(() => {
+      const disposer = reaction(
+        () => filtersStore.searchTitle,
+        (newSearchTitle: string) => {
+          setSearchValue(newSearchTitle);
+        }
+      );
+      return disposer;
+    }, [filtersStore]);
+
     const handleSearchChange = useCallback(
       (value: string) => {
         setSearchValue(value);
@@ -42,7 +53,7 @@ const ProductFilters: React.FC<React.HTMLAttributes<HTMLDivElement>> = observer(
 
     const handleCategoryChange = useCallback(
       (options: Option[]) => {
-        filtersStore.setSelectedCategories(options.map((opt) => parseInt(opt.key, 10)));
+        filtersStore.setSelectedCategories(options.map((opt) => opt.key));
       },
       [filtersStore]
     );
@@ -64,7 +75,7 @@ const ProductFilters: React.FC<React.HTMLAttributes<HTMLDivElement>> = observer(
           options={categoriesStore.categoryOptions}
           value={selectedOptions}
           onChange={handleCategoryChange}
-          getTitle={getTitle}
+          getTitle={categoriesStore.loading ? () => 'Loading…' : getTitle}
           disabled={categoriesStore.loading}
         />
       </div>

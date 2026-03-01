@@ -2,8 +2,10 @@ import Pagination from '@components/Pagination';
 import Text from '@components/Text';
 import { useStore } from '@stores/context';
 import type ProductModel from '@stores/models/ProductModel';
+import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 
 import styles from './ProductListPage.module.scss';
 import ProductFilters from './components/ProductFilters';
@@ -11,6 +13,42 @@ import ProductListItem from './components/ProductListItem';
 
 const ProductListPage: React.FC = observer(() => {
   const { filtersStore, productListStore } = useStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const querySearchTitle = searchParams.get('searchTitle');
+    const queryCategories = searchParams.getAll('categories');
+    const queryPage = searchParams.get('page');
+
+    if (querySearchTitle) {
+      filtersStore.setSearchTitle(querySearchTitle);
+    }
+    if (queryCategories.length) {
+      filtersStore.setSelectedCategories(queryCategories);
+    }
+    if (queryPage) {
+      const page = parseInt(queryPage, 10);
+      if (!isNaN(page) && page > 0) productListStore.setPage(page);
+    }
+  }, [filtersStore, productListStore, searchParams]);
+
+  useEffect(() => {
+    const disposer = reaction(
+      () => ({
+        searchTitle: filtersStore.searchTitle,
+        categories: filtersStore.selectedCategories,
+        page: productListStore.page,
+      }),
+      ({ searchTitle, categories, page }) => {
+        const params = new URLSearchParams();
+        if (page !== 1) params.set('page', String(page));
+        if (searchTitle) params.set('searchTitle', searchTitle);
+        categories.forEach((id: number) => params.append('categories', String(id)));
+        setSearchParams(params, { replace: true });
+      }
+    );
+    return disposer;
+  }, [filtersStore, productListStore, setSearchParams]);
 
   useEffect(() => {
     productListStore.fetchProducts();
@@ -60,7 +98,6 @@ const ProductListPage: React.FC = observer(() => {
           page={productListStore.page}
           pageCount={productListStore.pageCount}
           onPageChange={handlePageChange}
-          disabled={productListStore.loading}
         />
       </div>
     </div>
