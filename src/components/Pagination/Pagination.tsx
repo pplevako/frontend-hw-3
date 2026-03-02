@@ -15,40 +15,44 @@ export type PaginationProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const Pagination: React.FC<PaginationProps> = ({
   className,
-  page: currentPage,
-  pageCount: totalPages,
+  page,
+  pageCount,
   onPageChange,
   disabled = false,
   ...props
 }) => {
   const handlePrev = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+    if (page > 1) {
+      onPageChange(page - 1);
     }
   };
 
   const handleNext = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+    if (page < pageCount) {
+      onPageChange(page + 1);
     }
   };
+
+  if (pageCount <= 1) {
+    return null;
+  }
 
   return (
     <div className={cx(styles.pagination, className)} {...props}>
       <button
         className={styles.pageChangeBtn}
         onClick={handlePrev}
-        disabled={disabled || currentPage <= 1}
+        disabled={disabled || page <= 1}
       >
         <ArrowLeftIcon />
       </button>
       <Text view="p-18" tag="span">
-        {currentPage} / {totalPages}
+        {page} / {pageCount}
       </Text>
       <button
         className={styles.pageChangeBtn}
         onClick={handleNext}
-        disabled={disabled || currentPage >= totalPages}
+        disabled={disabled || page >= pageCount}
       >
         <ArrowRightIcon />
       </button>

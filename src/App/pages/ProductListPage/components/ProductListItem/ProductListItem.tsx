@@ -26,7 +26,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
     <Card
       className={styles.productListItem}
       key={product.id}
-      image={product.mainImageUrl}
+      image={product.cardImageUrl}
       title={product.title}
       subtitle={product.description}
       captionSlot={product.categoryTitle}

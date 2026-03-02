@@ -66,6 +66,16 @@ const ProductListPage: React.FC = observer(() => {
     [productListStore]
   );
 
+  const pagination = (
+    <nav className={styles.paginationNav}>
+      <Pagination
+        page={productListStore.page}
+        pageCount={productListStore.pageCount}
+        onPageChange={handlePageChange}
+      />
+    </nav>
+  );
+
   return (
     <div className={styles.productListPage}>
       <div className={styles.desc}>
@@ -88,18 +98,13 @@ const ProductListPage: React.FC = observer(() => {
           </Text>
         </div>
       </div>
-      <div className={styles.grid}>
+      {pagination}
+      <div className={styles.productsGrid}>
         {productListStore.products.map((product: ProductModel) => (
           <ProductListItem key={product.id} product={product} />
         ))}
       </div>
-      <div className={styles.paginationContainer}>
-        <Pagination
-          page={productListStore.page}
-          pageCount={productListStore.pageCount}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      {pagination}
     </div>
   );
 });

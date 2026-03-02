@@ -1,14 +1,9 @@
 import ProductModel from '@stores/models/ProductModel';
 import axios from 'axios';
-import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import qs from 'qs';
 
 import type ProductFiltersStore from '../ProductFiltersStore';
-
-type ProductsResponse = {
-  data: ProductModel[];
-  meta: { pagination: { total: number; pageCount: number } };
-};
 
 const DEFAULT_PAGE_SIZE = 25;
 const BASE_URL = 'https://front-school-strapi.ktsdev.ru/api/products';
@@ -25,7 +20,9 @@ class ProductListStore {
   constructor(filtersStore: ProductFiltersStore, pageSize = DEFAULT_PAGE_SIZE) {
     this._filtersStore = filtersStore;
     this._pageSize = pageSize;
-    makeAutoObservable(this);
+    makeAutoObservable<ProductListStore, '_products'>(this, {
+      _products: observable.ref,
+    });
 
     reaction(
       () => [filtersStore.searchTitle, filtersStore.selectedCategories],
@@ -94,7 +91,7 @@ class ProductListStore {
       const queryString = qs.stringify(this.queryParams, {
         encodeValuesOnly: true,
       });
-      const response = await axios.get<ProductsResponse>(`${BASE_URL}?${queryString}`);
+      const response = await axios.get(`${BASE_URL}?${queryString}`);
       runInAction(() => {
         this._products = response.data.data.map((item: unknown) => new ProductModel(item));
         this._total = response.data.meta.pagination.total;

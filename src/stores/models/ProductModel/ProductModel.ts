@@ -1,19 +1,18 @@
+import ProductCategoryModel from '../ProductCategoryModel';
+
 type ImageFormat = {
   url: string;
   width: number;
   height: number;
 };
 
+type ImageFormatKey = 'large' | 'medium' | 'small' | 'thumbnail';
+
 type ProductImage = {
   url: string;
   width: number;
   height: number;
-  formats: Record<string, ImageFormat>;
-};
-
-export type ProductCategoryModel = {
-  id: number;
-  title: string;
+  formats: Record<ImageFormatKey, ImageFormat>;
 };
 
 class ProductModel {
@@ -34,10 +33,7 @@ class ProductModel {
     this.price = data.price;
 
     if (data.productCategory) {
-      this.category = {
-        id: data.productCategory.documentId,
-        title: data.productCategory.title,
-      };
+      this.category = new ProductCategoryModel(data.productCategory);
     }
 
     if (Array.isArray(data.images)) {
@@ -66,14 +62,12 @@ class ProductModel {
     };
   }
 
-  // TODO: access other images as well
-  get mainImageUrl(): string {
-    return this.images[0]?.url || '';
+  getImageUrl({ index = 0, format }: { index?: number; format: ImageFormatKey }): string {
+    return this.images[index]?.formats[format]?.url || '';
   }
 
-  // TODO: access other images as well
-  getImageUrl(format: string): string {
-    return this.images[0]?.formats[format]?.url || '';
+  get cardImageUrl(): string {
+    return this.getImageUrl({ format: 'small' });
   }
 
   get categoryTitle(): string | undefined {

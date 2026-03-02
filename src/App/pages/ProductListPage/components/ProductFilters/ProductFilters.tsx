@@ -47,9 +47,9 @@ const ProductFilters: React.FC<React.HTMLAttributes<HTMLDivElement>> = observer(
       [debouncedSearch]
     );
 
-    const selectedOptions = categoriesStore.categoryOptions.filter((opt) =>
-      filtersStore.selectedCategories.includes(parseInt(opt.key, 10))
-    );
+    const selectedOptions = categoriesStore.categories
+      .filter((c) => filtersStore.selectedCategories.includes(c.id))
+      .map((c) => c.categoryOption);
 
     const handleCategoryChange = useCallback(
       (options: Option[]) => {

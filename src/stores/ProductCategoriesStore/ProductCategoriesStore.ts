@@ -1,7 +1,7 @@
 import type { Option } from '@components/MultiDropdown';
-import type ProductCategoryModel from '@stores/models/ProductModel';
+import ProductCategoryModel from '@stores/models/ProductCategoryModel';
 import axios from 'axios';
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, observable, runInAction } from 'mobx';
 
 const BASE_URL = 'https://front-school-strapi.ktsdev.ru/api/product-categories';
 
@@ -11,7 +11,9 @@ class ProductCategoriesStore {
   error: string | null = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      categories: observable.ref,
+    });
   }
 
   // TODO: add pagination
@@ -21,11 +23,7 @@ class ProductCategoriesStore {
     try {
       const response = await axios.get(BASE_URL);
       runInAction(() => {
-        // TODO: add API type
-        this.categories = response.data.data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-        }));
+        this.categories = response.data.data.map((item: unknown) => new ProductCategoryModel(item));
       });
     } catch (err) {
       runInAction(() => {
@@ -39,7 +37,7 @@ class ProductCategoriesStore {
   }
 
   get categoryOptions(): Option[] {
-    return this.categories.map((c) => ({ key: c.id.toString(), value: c.title }));
+    return this.categories.map((c) => c.categoryOption);
   }
 }
 
