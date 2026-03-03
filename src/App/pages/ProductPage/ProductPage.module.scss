@@ -8,7 +8,7 @@
   @include responsive-container;
 }
 
-.nav {
+.pageNav {
   margin-bottom: vars.$space-l;
 
   .backButton {
@@ -31,45 +31,39 @@
     flex-direction: column;
     align-items: center;
   }
+}
 
-  .productImage {
-    flex-shrink: 0;
-    max-width: 600px;
+.productImage {
+  flex-shrink: 0;
+  max-width: 600px;
 
-    img {
-      display: block;
-      width: 100%;
-    }
+  img {
+    display: block;
+    width: 100%;
   }
+}
 
-  .productDetail {
+.productDetail {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-xl;
+
+  .productTitle {
+    margin-bottom: vars.$space-m;
+  }
+  .productFooter {
     display: flex;
     flex-direction: column;
     gap: vars.$space-xl;
+    padding-top: vars.$space-l;
+  }
+}
 
-    .productTitle {
-      margin-bottom: vars.$space-m;
-    }
-    .productFooter {
-      display: flex;
-      flex-direction: column;
-      gap: vars.$space-xl;
-      padding-top: vars.$space-l;
+.productActions {
+  display: flex;
+  gap: vars.$space-xl;
 
-      .productActions {
-        display: flex;
-        gap: vars.$space-xl;
-
-        .btnAddToCard {
-          color: vars.$text-primary-color;
-          background-color: vars.$bg-color;
-          border: 1px solid vars.$text-secondary-color;
-
-          &:hover {
-            opacity: 0.5;
-          }
-        }
-      }
-    }
+  .btnAddToCard {
+    @include btn-secondary;
   }
 }

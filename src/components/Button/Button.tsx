@@ -18,9 +18,11 @@ const Button: React.FC<ButtonProps> = ({ className, disabled, loading, children,
   const classNames = cx('btn', { 'btn-disabled': disabled }, { 'btn-loading': loading }, className);
 
   return (
-    <button className={classNames} disabled={disabled || loading} {...props}>
+    <button type="button" className={classNames} disabled={disabled || loading} {...props}>
       {loading && <Loader size="s" />}
-      <Text view="button">{children}</Text>
+      <Text tag="span" view="button">
+        {children}
+      </Text>
     </button>
   );
 };
