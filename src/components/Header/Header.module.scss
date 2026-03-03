@@ -70,3 +70,23 @@
     gap: vars.$space-xxs;
   }
 }
+
+.cartIconContainer {
+  position: relative;
+  display: flex;
+
+  .cartBadge {
+    position: absolute;
+    bottom: -(vars.$space-xs);
+    right: -(vars.$space-xs);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background-color: vars.$badge-bg-color;
+    color: vars.$badge-text-color;
+  }
+}

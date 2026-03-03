@@ -20,7 +20,9 @@ const Button: React.FC<ButtonProps> = ({ className, disabled, loading, children,
   return (
     <button type="button" className={classNames} disabled={disabled || loading} {...props}>
       {loading && <Loader size="s" />}
-      <Text view="button">{children}</Text>
+      <Text tag="span" view="button">
+        {children}
+      </Text>
     </button>
   );
 };

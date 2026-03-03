@@ -39,3 +39,15 @@
     padding-right: vars.$space-s;
   }
 }
+
+@mixin btn-secondary {
+  color: vars.$text-primary-color;
+  background-color: vars.$bg-color;
+  outline: 1px solid vars.$text-secondary-color;
+  outline-offset: -1px;
+
+  &:hover {
+    background-color: inherit;
+    opacity: 0.5;
+  }
+}

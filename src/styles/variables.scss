@@ -22,6 +22,8 @@ $checkbox-check-color: $brand-color;
 $checkbox-check-disabled-color: #000000;
 $checkbox-border-hover-color: $brand-color;
 $color-main-bg: #FAFAFA;
+$badge-bg-color: $brand-color;
+$badge-text-color: #FFFFFF;
 
 /* Spacing */
 $space-xxs: 8px;
@@ -34,6 +36,7 @@ $space-xl: 48px;
 /* Sizing */
 $size-product-card-w: 360px;
 $size-content-max-w: 1240px;
+$size-btn-h: 52px;
 
 /* Breakpoints */
 $breakpoint-xs: 375px;

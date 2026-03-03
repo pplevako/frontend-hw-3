@@ -1,8 +1,8 @@
-import Button from '@components/Button';
 import Card from '@components/Card';
+import CartControls from '@components/CartControls';
 import { routes } from '@config/routes';
 import type ProductModel from '@stores/models/ProductModel';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router';
 
 import styles from './ProductListItem.module.scss';
@@ -13,13 +13,11 @@ type ProductListItemProps = {
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   const navigate = useNavigate();
+  const cartControlsRef = useRef<HTMLDivElement>(null);
 
-  const handleCardClick = () => {
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (cartControlsRef.current?.contains(e.target as Node)) return;
     navigate(routes.product.create(product.documentId));
-  };
-
-  const handleAddToCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
   };
 
   return (
@@ -32,7 +30,7 @@ const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
       captionSlot={product.categoryTitle}
       contentSlot={`$${product.price}`}
       onClick={handleCardClick}
-      actionSlot={<Button onClick={handleAddToCardClick}>Add to Card</Button>}
+      actionSlot={<CartControls product={product} ref={cartControlsRef} />}
     />
   );
 };

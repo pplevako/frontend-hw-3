@@ -1,6 +1,12 @@
 import ProductModel from '@stores/models/ProductModel';
 import axios from 'axios';
-import { makeAutoObservable, observable, reaction, runInAction } from 'mobx';
+import {
+  makeAutoObservable,
+  observable,
+  reaction,
+  runInAction,
+  type IReactionDisposer,
+} from 'mobx';
 import qs from 'qs';
 
 import type ProductFiltersStore from '../ProductFiltersStore';
@@ -15,21 +21,24 @@ class ProductListStore {
   private _pageSize: number;
   private _loading = false;
   private _error: string | null = null;
-  private readonly _filtersStore: ProductFiltersStore;
+  private readonly filtersStore: ProductFiltersStore;
+  private disposers: IReactionDisposer[] = [];
 
   constructor(filtersStore: ProductFiltersStore, pageSize = DEFAULT_PAGE_SIZE) {
-    this._filtersStore = filtersStore;
+    this.filtersStore = filtersStore;
     this._pageSize = pageSize;
-    makeAutoObservable<ProductListStore, '_products'>(this, {
+    makeAutoObservable<ProductListStore, '_products' | 'disposers'>(this, {
       _products: observable.ref,
+      disposers: false,
     });
 
-    reaction(
+    const disposer = reaction(
       () => [filtersStore.searchTitle, filtersStore.selectedCategories],
       () => {
         this.resetPage();
       }
     );
+    this.disposers.push(disposer);
   }
 
   get products(): readonly ProductModel[] {
@@ -80,7 +89,7 @@ class ProductListStore {
         page: this.page,
         pageSize: this.pageSize,
       },
-      ...this._filtersStore.queryParams,
+      ...this.filtersStore.queryParams,
     };
   }
 
@@ -98,6 +107,7 @@ class ProductListStore {
       });
     } catch (err) {
       runInAction(() => {
+        this._products = [];
         this._error = err instanceof Error ? err.message : 'Unknown error';
       });
     } finally {
@@ -105,6 +115,11 @@ class ProductListStore {
         this._loading = false;
       });
     }
+  }
+
+  dispose() {
+    this.disposers.forEach((disposer) => disposer());
+    this.disposers = [];
   }
 }
 

@@ -1,4 +1,5 @@
 import Button from '@components/Button';
+import CartControls from '@components/CartControls';
 import Text from '@components/Text/Text';
 import ArrowLeftIcon from '@components/icons/ArrowLeftIcon';
 import { useStore } from '@stores/context';
@@ -55,7 +56,7 @@ const ProductPage: React.FC = observer(() => {
             </Text>
             <div className={styles.productActions}>
               <Button>Buy Now</Button>
-              <Button className={styles.btnAddToCard}>Add to Card</Button>
+              <CartControls product={product} buttonClassName={styles.btnAddToCard} />
             </div>
           </div>
         </div>

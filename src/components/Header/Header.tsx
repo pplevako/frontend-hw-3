@@ -1,7 +1,9 @@
 import Text from '@components/Text';
 import CartIcon from '@components/icons/CartIcon';
 import UserIcon from '@components/icons/UserIcon';
+import { useStore } from '@stores/context';
 import cx from 'clsx';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { NavLink } from 'react-router';
 
@@ -13,7 +15,10 @@ const navItems = [
   { to: '/about', label: 'About us' },
 ];
 
-const Header: React.FC = () => {
+const Header: React.FC = observer(() => {
+  const { cartStore } = useStore();
+  const { totalQuantity: cartItemCount } = cartStore;
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -39,12 +44,21 @@ const Header: React.FC = () => {
           ))}
         </nav>
         <div className={styles.userActions}>
-          <CartIcon />
+          <div className={styles.cartIconContainer}>
+            <CartIcon />
+            {cartItemCount > 0 && (
+              <span className={styles.cartBadge}>
+                <Text view="p-14" tag="span" weight="bold">
+                  {cartItemCount}
+                </Text>
+              </span>
+            )}
+          </div>
           <UserIcon />
         </div>
       </div>
     </header>
   );
-};
+});
 
 export default Header;

@@ -64,12 +64,6 @@
   gap: vars.$space-xl;
 
   .btnAddToCard {
-    color: vars.$text-primary-color;
-    background-color: vars.$bg-color;
-    border: 1px solid vars.$text-secondary-color;
-
-    &:hover {
-      opacity: 0.5;
-    }
+    @include btn-secondary;
   }
 }
